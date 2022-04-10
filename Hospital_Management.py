@@ -1,8 +1,8 @@
 from os import abort
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,session
 import sqlite3 as sql
-
+from flask_session import Session
 from werkzeug.utils import redirect
 
 connection=sql.connect("Hospital.db",check_same_thread=False)
