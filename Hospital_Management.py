@@ -27,14 +27,33 @@ hospital=Flask(__name__)
 
 @hospital.route("/",methods = ["GET","POST"])
 def admin_login():
-    if request.method == "POST":
+    # if request.method == "POST":
+    #     getusername=request.form["username"]
+    #     getpassword=request.form["password"]
+    #     print(getusername)
+    #     print(getpassword)
+    #     if getusername=="admin" and getpassword=="12345":
+    #         return redirect("/dashboard")
+    # return render_template("admin.html")
+
+ global result1,result2,a,b
+    if request.method=="POST":
         getusername=request.form["username"]
-        getpassword=request.form["password"]
-        print(getusername)
-        print(getpassword)
-        if getusername=="admin" and getpassword=="12345":
-            return redirect("/dashboard")
-    return render_template("admin.html")
+        getpass=request.form["pass"]
+        cursor=connection.cursor()
+        query="SELECT * FROM USER WHERE NAME='"+getusername+"' AND PASS='"+getpass+"'"
+        print(query)
+        result1=cursor.execute(query).fetchall()
+        if len(result1)>0:
+            for i in result1:
+                getName=i[1]
+                getId=i[0]
+            return redirect('/userpage')
+        else:
+            return render_template("dashboard.html",status=True)
+
+    else:
+        return render_template("admin.html",status=False)
 
 @hospital.route("/dashboard",methods = ["GET","POST"])
 def patient_registration():
